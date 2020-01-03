@@ -9,7 +9,7 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Container(
-      height: 500,
+      height: 600,
       child: SingleChildScrollView(    // here to use the single child scroll height should be fixed so where ever you want to use this single child scroll view must wrap widget into the container and set the height then use it as shown here bascially by this we can scroll down or up in case the number of lists increased 
 
               child: Column(

@@ -25,26 +25,28 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text("Personal Expenses App"),
       ),
-      body: Column(
-        // mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            width: double.infinity,
-            padding: EdgeInsets.all(10),
-            child: Card(
-              color: Colors.purple,
-              child: Text(
-                "Expenses chart",
-                style: TextStyle(
-                  color: Colors.white,
+      body: SingleChildScrollView(
+              child: Column(
+          // mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.all(10),
+              child: Card(
+                color: Colors.purple,
+                child: Text(
+                  "Expenses chart",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
                 ),
+                elevation: 5,
               ),
-              elevation: 5,
             ),
-          ),
-          UserTransaction(),
-        ],
+            UserTransaction(),
+          ],
+        ),
       ),
     );
   }
