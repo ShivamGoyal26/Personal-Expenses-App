@@ -40,7 +40,7 @@ class NewTransaction extends StatelessWidget {
               onPressed: () {
                 addTx(
                   titleInput.text,
-                  double.parse(amountInput.text), // here this will convert the amount in to the double 
+                  double.parse(amountInput.text), // here this will convert the amount in to the double
                 );
                 // print(titleInput.text);
                 // print(amountInput.text);
