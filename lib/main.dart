@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './transaction.dart';
+import 'widgets/transaction_lists.dart';
 import 'package:intl/intl.dart';
 
 void main() => runApp(MyApp());
@@ -13,21 +13,20 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  final List<Transaction> transactions = [
-    Transaction(
-      id: 't1',
-      title: 'Los Angeles',
-      amount: 60,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 't2',
-      title: 'Las Vegas',
-      amount: 40,
-      date: DateTime.now(),
-    )
-  ]; // here <Transaction> this is used as the type of the list
+class MyHomePage extends StatefulWidget {
+  // FOR YOUR INFO WE CAN'T USE THE SETSTATE FUNCTION IN THE STATELESS WIDGET AND NEITHER WE CAN CHANGE THE VALUES OF THE VARIBLES NOR DISPLAY ANY CHANGES IN THE USER DISPLAY so here we have to shift for the stateful widget becasue we have to update the ui when user enter there expenses and the input title and amount will changes at every time when the user enter the value
+
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  // String titleInput;
+  // String amountInput;
+
+  final titleInput = TextEditingController();
+  final amountInput = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,68 +54,34 @@ class MyHomePage extends StatelessWidget {
                 children: <Widget>[
                   TextField(
                     decoration: InputDecoration(labelText: "Title"),
+                    controller: titleInput,
+                    // onChanged:                       //here this, this will fired or excute on every key stroke
+//                         (val) {
+                    //  titleInput = val;               // here we can write anything in the value of val and val always have the string which we have to pas as the arguments to the function here we have used the anonymous function
+//                     },
                   ),
                   TextField(
                     decoration: InputDecoration(labelText: "Amount"),
+                    controller: amountInput,
+                    // onChanged: (val2) {
+                    //   amountInput = val2;
+                    // },
                   ),
                   FlatButton(
                     child: Text("Add Transaction"),
                     textColor: Colors.purple,
-                    onPressed: () {},
-                  )
+                    onPressed: () {
+                      print(titleInput.text);
+                      print(amountInput.text);
+                      // print(titleInput);
+                      // print(amountInput);
+                    },
+                  ),
                 ],
               ),
             ),
           ),
-          Column(
-              children: transactions.map((tx) {
-            return Card(
-                elevation: 5,
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      margin: EdgeInsets.symmetric(
-                        horizontal: 50,
-                        vertical: 20,
-                      ),
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                        color: Colors.purple,
-                        width: 2,
-                      )),
-                      child: Text(
-                        '\$${tx.amount}',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.purple,
-                        ),
-                      ),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          tx.title,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          DateFormat.yMMMd().format(tx.date),
-                          style: TextStyle(
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
-                ));
-          }).toList() // here map() function coverts the list of objects into the list of widgets here at last we add tolist() this is because we know map will give us the iterable so in order to achieve the list we add this
-// here we should know that the map pick one by one element in the list
-
-              )
+          TransactionList(), 
         ],
       ),
     );
