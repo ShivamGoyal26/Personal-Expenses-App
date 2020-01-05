@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 
-class NewTransaction extends StatelessWidget {
+class NewTransaction extends StatefulWidget {
   // String titleInput;
   // String amountInput;
 
-  final titleInput = TextEditingController();
-  final amountInput = TextEditingController();
-
   final Function addTx;
+
+  NewTransaction(this.addTx);
+
+  @override
+  _NewTransactionState createState() => _NewTransactionState();
+}
+
+class _NewTransactionState extends State<NewTransaction> {
+  final titleInput = TextEditingController();
+
+  final amountInput = TextEditingController();
 
   void submitData() {
     final enteredTitle = titleInput.text;
@@ -16,13 +24,15 @@ class NewTransaction extends StatelessWidget {
     if (enteredTitle.isEmpty || enteredAmount <= 0) {
       return;
     }
-    addTx(
-      enteredTitle,
-      enteredAmount,
-    );
+    widget.addTx(
+        // widget. added beacuse here we tried to access the addTx method which is technically is in the other class right so thats why we have used the widget to use access the method or the variables that are present in the other classes
+        // widget property is only available in the state class basically used to acess the properties or the functions of the other class or the main class
+
+        enteredTitle,
+        enteredAmount,
+        Navigator.of(context).pop());
   }
 
-  NewTransaction(this.addTx);
   @override
   Widget build(BuildContext context) {
     return Card(

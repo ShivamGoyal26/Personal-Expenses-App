@@ -53,7 +53,11 @@ class _MyHomePageState extends State<MyHomePage> {
     showModalBottomSheet(
         context: ctx,
         builder: (_) {
-          return NewTransaction(_addNewTransaction);
+          return GestureDetector(
+            onTap: (){},
+            child: NewTransaction(_addNewTransaction),
+            behavior: HitTestBehavior.opaque,
+          );
         }); // here instead of _ we can use bCtx or any other name
     // this function opens the bottom sheet here it needs a two arguments one is context and other is builder
     // here context: needs a argu and builder function also gives the context
