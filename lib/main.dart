@@ -10,6 +10,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: "Personal Expense",
+      theme: ThemeData(
+        primarySwatch: Colors.purple,
+        fontFamily: 'OpenSans',
+      ),
       home: MyHomePage(),
     );
   }
@@ -54,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
         context: ctx,
         builder: (_) {
           return GestureDetector(
-            onTap: (){},
+            onTap: () {},
             child: NewTransaction(_addNewTransaction),
             behavior: HitTestBehavior.opaque,
           );
@@ -67,7 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Personal Expenses App"),
+        title: Text("Personal Expenses"),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.add),
