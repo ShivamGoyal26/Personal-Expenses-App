@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './widgets/chart.dart';
 // import './widgets/user_transactions.dart';
 import './widgets/new_transactions.dart';
 import './widgets/transaction_lists.dart';
@@ -68,6 +69,15 @@ class _MyHomePageState extends State<MyHomePage> {
     // here context: needs a argu and builder function also gives the context
   }
 
+  List<Transaction> get _recentTransactions {
+    return _userTransactions.where((tx) {
+      // where function has first transitions in tx you can give any name instead of tx
+      return tx.date.isAfter(
+        DateTime.now().subtract(Duration(days: 7)),
+        ); //here if the tx.date is after the day we have given will returns the true
+    }).toList();    // here because we are suppost to get the list            // where is special kind of function with the condition and runs on each transitions if condition is true then return or keep that transation otherwise rejects the transition but it will runs on single transition
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,20 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
         // mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Container(
-            width: double.infinity,
-            padding: EdgeInsets.all(10),
-            child: Card(
-              color: Colors.purple,
-              child: Text(
-                "Expenses chart",
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-              elevation: 5,
-            ),
-          ),
+          Chart(_recentTransactions),
           TransactionList(_userTransactions),
         ],
       ),
