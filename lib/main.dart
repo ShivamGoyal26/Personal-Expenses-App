@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import './widgets/chart.dart';
 // import './widgets/user_transactions.dart';
 import './widgets/new_transactions.dart';
 import './widgets/transaction_lists.dart';
@@ -97,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
         // mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Chart(_recentTransactions),
+          
           TransactionList(_userTransactions),
         ],
       ),
