@@ -14,11 +14,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.purple,
         fontFamily: 'OpenSans',
+        errorColor: Colors.purple,
       ),
       home: MyHomePage(),
     );
   }
 }
+
+
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -28,11 +31,11 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _userTransactions = [];
 
-  void _addNewTransaction(String txtitle, double txamount) {
+  void _addNewTransaction(String txtitle, double txamount, DateTime pickedDate) {
     final newTx = Transaction(
       title: txtitle,
       amount: txamount,
-      date: DateTime.now(),
+      date: pickedDate,
       id: DateTime.now().toString(),
     );
     setState(() {
@@ -51,6 +54,16 @@ class _MyHomePageState extends State<MyHomePage> {
           );
         });
   }
+
+  void _deleteTransaction(String id){
+    setState(() {
+      _userTransactions.removeWhere((tx){
+        return tx.id == id;
+      });
+    });
+  
+
+}
 
   List<Transaction> get _recentTransactions {
     return _userTransactions.where((tx) {
@@ -81,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Chart(_recentTransactions),
-            TransactionList(_userTransactions),
+            TransactionList(_userTransactions, _deleteTransaction),
           ],
         ),
       ),
