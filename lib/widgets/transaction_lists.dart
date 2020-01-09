@@ -10,23 +10,19 @@ class TransactionList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 500,
-      // child: SingleChildScrollView(    // here to use the single child scroll height should be fixed so where ever you want to use this single child scroll view must wrap widget into the container and set the height then use it as shown here bascially by this we can scroll down or up in case the number of lists increased
-
       child: transactions.isEmpty
           ? Container(
-            // height: 600,
-            width: double.infinity,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
+              width: double.infinity,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
                     "No Transactions Added Yet!",
                   ),
-                  // Image.asset('assets\fonts\images\Add-File-icon.png'),
                 ],
               ),
-          )
+            )
           : ListView.builder(
               itemBuilder: (ctx, index) {
                 return Card(
@@ -45,8 +41,7 @@ class TransactionList extends StatelessWidget {
                             width: 2,
                           )),
                           child: Text(
-                            '\$${transactions[index].amount.toStringAsFixed(2)}', // here this toStringAsFixed(2) will helps us not showing more than two numbers after the decimal point
-
+                            '\$${transactions[index].amount.toStringAsFixed(2)}',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.purple,
@@ -75,22 +70,7 @@ class TransactionList extends StatelessWidget {
                       ],
                     ));
               },
-              itemCount: transactions.length,
-              // here we are using the list view with the builder now here in the builder
-              // we have to use the itembuilder : now it will take the one function it must be an anonymous or some
-              // named Function now this function will have two arguments one is context here we named it ctx and
-              // the other must be index it can not be changed
-              //  here the height of the listview is the infinte so there must be a problem of not showing the widgets in the column wise sometimes due to its infinite height that's why you should always use the container while using the listview
-              // children: transactions.map((tx) {   // here in the list view we can not provide the children here we have to provide the itemcount which we want to be display or show on the screen
-
-              // here in the itembuilder the function which is anonymous in this case will be excuted automatically
-              // as much as the number of the itemcount is there but here it return the widget so here we want to
-              // return our card
-
-              // }).toList() // here map() function coverts the list of objects into the list of widgets here at last we add tolist() this is because we know map will give us the iterable so in order to achieve the list we add this
-// here we should know that the map pick one by one element in the list
             ),
-      // ),
     );
   }
 }

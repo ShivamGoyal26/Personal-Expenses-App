@@ -26,20 +26,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> _userTransactions = [
-    // Transaction(
-    //   id: 't1',
-    //   title: 'Los Angeles',
-    //   amount: 60,
-    //   date: DateTime.now(),
-    // ),
-    // Transaction(
-    //   id: 't2',
-    //   title: 'Las Vegas',
-    //   amount: 40,
-    //   date: DateTime.now(),
-    // )
-  ];
+  final List<Transaction> _userTransactions = [];
 
   void _addNewTransaction(String txtitle, double txamount) {
     final newTx = Transaction(
@@ -49,8 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
       id: DateTime.now().toString(),
     );
     setState(() {
-      _userTransactions.add(
-          newTx); // here we can not write like this  _userTransactions= newTx; because at the upper we declare it the final but with the help of add function we can add the value without changes the address because basically final keyword lock the adress and const lock the values
+      _userTransactions.add(newTx);
     });
   }
 
@@ -63,22 +49,18 @@ class _MyHomePageState extends State<MyHomePage> {
             child: NewTransaction(_addNewTransaction),
             behavior: HitTestBehavior.opaque,
           );
-        }); // here instead of _ we can use bCtx or any other name
-    // this function opens the bottom sheet here it needs a two arguments one is context and other is builder
-    // here context: needs a argu and builder function also gives the context
+        });
   }
 
   List<Transaction> get _recentTransactions {
-    return _userTransactions.where( (tx){
-        return tx.date.isAfter(
-          DateTime.now().subtract(
-            Duration(days: 7),
-            ),);
-         }).toList();
-
-      }
-  
-
+    return _userTransactions.where((tx) {
+      return tx.date.isAfter(
+        DateTime.now().subtract(
+          Duration(days: 7),
+        ),
+      );
+    }).toList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,15 +71,13 @@ class _MyHomePageState extends State<MyHomePage> {
           IconButton(
             icon: Icon(Icons.add),
             onPressed: () {
-              _startAddNewTransaction(
-                  context); // here this function needs a context thats why we passed the content here
+              _startAddNewTransaction(context);
             },
           ),
         ],
       ),
       body: SingleChildScrollView(
-              child: Column(
-          // mainAxisAlignment: MainAxisAlignment.center,
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Chart(_recentTransactions),
@@ -109,21 +89,8 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: () {
-            _startAddNewTransaction(
-                context); // here this function needs a context thats why we passed the content here
+            _startAddNewTransaction(context);
           }),
     );
   }
 }
-// class MyHomePage extends StatefulWidget {
-//   // FOR YOUR INFO WE CAN'T USE THE SETSTATE FUNCTION IN THE STATELESS WIDGET AND NEITHER WE CAN CHANGE THE VALUES OF THE VARIBLES NOR DISPLAY ANY CHANGES IN THE USER DISPLAY so here we have to shift for the stateful widget becasue we have to update the ui when user enter there expenses and the input title and amount will changes at every time when the user enter the value
-//   @override
-//   _MyHomePageState createState() => _MyHomePageState();
-// }
-
-// class _MyHomePageState extends State<MyHomePage> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return
-//   }
-// }
