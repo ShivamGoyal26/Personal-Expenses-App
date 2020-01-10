@@ -21,17 +21,62 @@ class MyApp extends StatelessWidget {
   }
 }
 
-
-
 class MyHomePage extends StatefulWidget {
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> _userTransactions = [];
+  final List<Transaction> _userTransactions = [
+    Transaction(
+        title: "New shoes",
+        date: DateTime.now(),
+        amount: 20,
+        id: DateTime.now().toString()),
+    Transaction(
+        title: "New shoes",
+        date: DateTime.now(),
+        amount: 20,
+        id: DateTime.now().toString()),
+    Transaction(
+        title: "New shoes",
+        date: DateTime.now(),
+        amount: 20,
+        id: DateTime.now().toString()),
+    Transaction(
+        title: "New shoes",
+        date: DateTime.now(),
+        amount: 20,
+        id: DateTime.now().toString()),
+    Transaction(
+        title: "New shoes",
+        date: DateTime.now(),
+        amount: 20,
+        id: DateTime.now().toString()),
+    Transaction(
+        title: "New shoes",
+        date: DateTime.now(),
+        amount: 20,
+        id: DateTime.now().toString()),
+    Transaction(
+        title: "New shoes",
+        date: DateTime.now(),
+        amount: 20,
+        id: DateTime.now().toString()),
+    Transaction(
+        title: "New shoes",
+        date: DateTime.now(),
+        amount: 20,
+        id: DateTime.now().toString()),
+    Transaction(
+        title: "New shoes",
+        date: DateTime.now(),
+        amount: 20,
+        id: DateTime.now().toString())
+  ];
 
-  void _addNewTransaction(String txtitle, double txamount, DateTime pickedDate) {
+  void _addNewTransaction(
+      String txtitle, double txamount, DateTime pickedDate) {
     final newTx = Transaction(
       title: txtitle,
       amount: txamount,
@@ -55,15 +100,13 @@ class _MyHomePageState extends State<MyHomePage> {
         });
   }
 
-  void _deleteTransaction(String id){
+  void _deleteTransaction(String id) {
     setState(() {
-      _userTransactions.removeWhere((tx){
+      _userTransactions.removeWhere((tx) {
         return tx.id == id;
       });
     });
-  
-
-}
+  }
 
   List<Transaction> get _recentTransactions {
     return _userTransactions.where((tx) {
