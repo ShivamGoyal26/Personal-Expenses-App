@@ -4,6 +4,7 @@ import '../models/transaction.dart';
 import 'package:intl/intl.dart';
 
 class Chart extends StatelessWidget {
+
   final List<Transaction> recentTransactions;
   Chart(this.recentTransactions);
 
@@ -36,6 +37,7 @@ class Chart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("Chart Build Method");
     return Card(
       elevation: 6,
       margin: EdgeInsets.all(10),

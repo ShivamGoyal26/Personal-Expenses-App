@@ -10,6 +10,7 @@ import './models/transaction.dart';
 import './widgets/transaction_lists.dart';
 
 void main() {
+  print("Void Main()");
   // WidgetsFlutterBinding.ensureInitialized();
   // SystemChrome.setPreferredOrientations(
   //   [
@@ -23,6 +24,7 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    print("Stateless widget in the build method");
     return MaterialApp(
       title: "Personal Expense",
       theme: ThemeData(
@@ -37,7 +39,10 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _MyHomePageState createState() {
+    print("Stateful State Class");
+    return _MyHomePageState();
+  }
 }
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -45,6 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _addNewTransaction(
       String txtitle, double txamount, DateTime pickedDate) {
+        print("Add New Transaction");
     final newTx = Transaction(
       title: txtitle,
       amount: txamount,
@@ -54,6 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _userTransactions.add(newTx);
     });
+    print("print in after the setstate in the add new transaction");
   }
 
   void _startAddNewTransaction(BuildContext ctx) {
@@ -69,14 +76,19 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _deleteTransaction(String id) {
-    setState(() {
-      _userTransactions.removeWhere((tx) {
-        return tx.id == id;
-      });
-    });
+    setState(
+      () {
+        print("Delte Transaction in the setstate");
+        _userTransactions.removeWhere((tx) {
+          return tx.id == id;
+        });
+      },
+    );
+    print("Delte Transaction after the setstate");
   }
 
   List<Transaction> get _recentTransactions {
+    print("Recent Transactions");
     return _userTransactions.where((tx) {
       return tx.date.isAfter(
         DateTime.now().subtract(
@@ -88,8 +100,56 @@ class _MyHomePageState extends State<MyHomePage> {
 
   bool _showChart = false;
 
+  List<Widget> _buildLandscapeContent(
+      MediaQueryData mediaQuery, AppBar appBar, Widget txList) {
+    return [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text('Show Chart'),
+          Switch.adaptive(
+            activeColor: Colors.purple,
+            value: _showChart,
+            onChanged: (val) {
+              setState(() {
+                _showChart = val;
+              });
+            },
+          ),
+        ],
+      ),
+      _showChart
+          ? Container(
+              child: Chart(_recentTransactions),
+              height: (mediaQuery.size.height -
+                      appBar.preferredSize.height -
+                      mediaQuery.padding.top) *
+                  0.5,
+            )
+          : txList
+    ];
+  }
+
+  List<Widget> _buildPortraitContent(
+    MediaQueryData mediaQuery,
+    AppBar appBar,
+    Widget txList,
+  ) {
+    return [
+      Container(
+        child: Chart(_recentTransactions),
+        height: (mediaQuery.size.height -
+                appBar.preferredSize.height -
+                mediaQuery.padding.top) *
+            0.22,
+      ),
+      txList,
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
+    print("Main Build Method");
     final mediaQuery = MediaQuery.of(context);
     final isLandsacpe = mediaQuery.orientation == Orientation.landscape;
     final PreferredSizeWidget appBar = Platform.isIOS
@@ -125,12 +185,14 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           );
     final txList = Container(
-      child: TransactionList(_userTransactions, _deleteTransaction),
+      child: TransactionList(
+        _userTransactions,
+        _deleteTransaction,
+      ),
       height: (mediaQuery.size.height -
               appBar.preferredSize.height -
               mediaQuery.padding.top) *
           0.78,
-      // MediaQuery.of(context).padding.top // this gives the height of the status bar
     );
     final bodyPage = SafeArea(
       child: SingleChildScrollView(
@@ -138,54 +200,17 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             if (isLandsacpe)
-              Container(
-                height: (mediaQuery.size.height -
-                        appBar.preferredSize.height -
-                        mediaQuery.padding.top) *
-                    0.1,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text('Show Chart'),
-                    Switch.adaptive(
-                      activeColor: Colors.purple,
-                      value: _showChart,
-                      onChanged: (val) {
-                        setState(() {
-                          _showChart = val;
-                        });
-                      },
-                    ),
-                  ],
-                ),
+              ..._buildLandscapeContent(
+                mediaQuery,
+                appBar,
+                txList,
               ),
             if (!isLandsacpe)
-              Container(
-                child: Chart(_recentTransactions),
-                height: (MediaQuery.of(context).size.height -
-                        appBar.preferredSize.height -
-                        MediaQuery.of(context).padding.top) *
-                    0.22,
+              ..._buildPortraitContent(
+                mediaQuery,
+                appBar,
+                txList,
               ),
-            if (!isLandsacpe) txList,
-            if (isLandsacpe)
-              _showChart
-                  ? Container(
-                      child: Chart(_recentTransactions),
-                      height: (MediaQuery.of(context).size.height -
-                              appBar.preferredSize.height -
-                              MediaQuery.of(context).padding.top) *
-                          0.7,
-                    )
-                  : Container(
-                      child: TransactionList(
-                          _userTransactions, _deleteTransaction),
-                      height: (MediaQuery.of(context).size.height -
-                              appBar.preferredSize.height -
-                              MediaQuery.of(context).padding.top) *
-                          0.9,
-                      // MediaQuery.of(context).padding.top // this gives the height of the status bar
-                    ),
           ],
         ),
       ),
@@ -206,7 +231,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: Icon(Icons.add),
                     onPressed: () {
                       _startAddNewTransaction(context);
-                    }),
+                    },
+                  ),
           );
   }
 }

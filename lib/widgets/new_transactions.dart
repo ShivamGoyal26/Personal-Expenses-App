@@ -14,9 +14,11 @@ class NewTransaction extends StatefulWidget {
 class _NewTransactionState extends State<NewTransaction> {
   final _titleInput = TextEditingController();
   final _amountInput = TextEditingController();
-  DateTime _selectedDate;
+  DateTime _selectedDate = null;
+  
 
   void _submitData() {
+    print("Submit Data");
     final enteredTitle = _titleInput.text;
     final enteredAmount = double.parse(_amountInput.text);
 
@@ -39,12 +41,14 @@ class _NewTransactionState extends State<NewTransaction> {
       } else {
         _selectedDate = pickedDate;
       }
+      print("Date Picker");
       setState(() {});
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    print("New Transaction Build Method");
     return SingleChildScrollView(
       child: Card(
         elevation: 5,

@@ -16,6 +16,7 @@ class Transactionitem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("Transaction item Build Method");
     return Card(
       elevation: 5,
       margin: EdgeInsets.only(
