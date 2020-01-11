@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 // import 'package:flutter/services.dart';
 import './widgets/chart.dart';
@@ -40,53 +41,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> _userTransactions = [
-    Transaction(
-        title: "New shoes",
-        date: DateTime.now(),
-        amount: 20,
-        id: DateTime.now().toString()),
-    Transaction(
-        title: "New shoes",
-        date: DateTime.now(),
-        amount: 20,
-        id: DateTime.now().toString()),
-    Transaction(
-        title: "New shoes",
-        date: DateTime.now(),
-        amount: 20,
-        id: DateTime.now().toString()),
-    Transaction(
-        title: "New shoes",
-        date: DateTime.now(),
-        amount: 20,
-        id: DateTime.now().toString()),
-    Transaction(
-        title: "New shoes",
-        date: DateTime.now(),
-        amount: 20,
-        id: DateTime.now().toString()),
-    Transaction(
-        title: "New shoes",
-        date: DateTime.now(),
-        amount: 20,
-        id: DateTime.now().toString()),
-    Transaction(
-        title: "New shoes",
-        date: DateTime.now(),
-        amount: 20,
-        id: DateTime.now().toString()),
-    Transaction(
-        title: "New shoes",
-        date: DateTime.now(),
-        amount: 20,
-        id: DateTime.now().toString()),
-    Transaction(
-        title: "New shoes",
-        date: DateTime.now(),
-        amount: 20,
-        id: DateTime.now().toString())
-  ];
+  final List<Transaction> _userTransactions = [];
 
   void _addNewTransaction(
       String txtitle, double txamount, DateTime pickedDate) {
@@ -136,19 +91,39 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
-    final isLandsacpe =
-        mediaQuery.orientation == Orientation.landscape;
-    final appBar = AppBar(
-      title: Text("Personal Expenses"),
-      actions: <Widget>[
-        IconButton(
-          icon: Icon(Icons.add),
-          onPressed: () {
-            _startAddNewTransaction(context);
-          },
-        ),
-      ],
-    );
+    final isLandsacpe = mediaQuery.orientation == Orientation.landscape;
+    final PreferredSizeWidget appBar = Platform.isIOS
+        ? CupertinoNavigationBar(
+            middle: Text(
+              "Personal Expenses",
+            ),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                GestureDetector(
+                  child: Icon(
+                    CupertinoIcons.add,
+                  ),
+                  onTap: () {
+                    _startAddNewTransaction(context);
+                  },
+                )
+              ],
+            ),
+          )
+        : AppBar(
+            title: Text(
+              "Personal Expenses",
+            ),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.add),
+                onPressed: () {
+                  _startAddNewTransaction(context);
+                },
+              ),
+            ],
+          );
     final txList = Container(
       child: TransactionList(_userTransactions, _deleteTransaction),
       height: (mediaQuery.size.height -
@@ -157,15 +132,14 @@ class _MyHomePageState extends State<MyHomePage> {
           0.78,
       // MediaQuery.of(context).padding.top // this gives the height of the status bar
     );
-    return Scaffold(
-      appBar: appBar,
-      body: SingleChildScrollView(
+    final bodyPage = SafeArea(
+      child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             if (isLandsacpe)
               Container(
-                 height: (mediaQuery.size.height -
+                height: (mediaQuery.size.height -
                         appBar.preferredSize.height -
                         mediaQuery.padding.top) *
                     0.1,
@@ -184,8 +158,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ],
                 ),
-              )
-              ,
+              ),
             if (!isLandsacpe)
               Container(
                 child: Chart(_recentTransactions),
@@ -216,12 +189,24 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Platform.isIOS ? Container() : FloatingActionButton(
-          child: Icon(Icons.add),
-          onPressed: () {
-            _startAddNewTransaction(context);
-          }),
     );
+    return Platform.isIOS
+        ? CupertinoPageScaffold(
+            child: bodyPage,
+            navigationBar: appBar,
+          )
+        : Scaffold(
+            appBar: appBar,
+            body: bodyPage,
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
+            floatingActionButton: Platform.isIOS
+                ? Container()
+                : FloatingActionButton(
+                    child: Icon(Icons.add),
+                    onPressed: () {
+                      _startAddNewTransaction(context);
+                    }),
+          );
   }
 }
