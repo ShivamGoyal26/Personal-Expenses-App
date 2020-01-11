@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/transaction.dart';
-import 'package:intl/intl.dart';
+import './Transaction_item.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
@@ -24,57 +24,7 @@ class TransactionList extends StatelessWidget {
           )
         : ListView.builder(
             itemBuilder: (ctx, index) {
-              return Card(
-                elevation: 5,
-                margin: EdgeInsets.only(
-                  top: 15,
-                  left: 10,
-                  right: 10,
-                ),
-                child: ListTile(
-                  leading: CircleAvatar(
-                    radius: 30,
-                    child: Padding(
-                      padding: EdgeInsets.all(6),
-                      child: FittedBox(
-                        child: Text(
-                          '\$${transactions[index].amount}',
-                        ),
-                      ),
-                    ),
-                  ),
-                  title: Text(
-                    transactions[index].title,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  subtitle: Text(
-                    DateFormat.yMMMd().format(transactions[index].date),
-                    style: TextStyle(
-                      color: Colors.grey,
-                    ),
-                  ),
-                  trailing: MediaQuery.of(context).size.width > 360
-                      ? FlatButton.icon(
-                          icon: Icon(
-                            Icons.delete,
-                          ),
-                          label: Text("Delete"),
-                          textColor: Theme.of(context).errorColor,
-                          onPressed: () {
-                            deltedTx(transactions[index].id);
-                          })
-                      : IconButton(
-                          icon: Icon(Icons.delete),
-                          color: Theme.of(context).errorColor,
-                          onPressed: () {
-                            deltedTx(transactions[index].id);
-                          },
-                        ),
-                ),
-              );
+              return Transactionitem(transaction: transactions[index], deltedTx: deltedTx);
               // return Card(
               //     elevation: 5,
               //     child: Row(
@@ -124,3 +74,4 @@ class TransactionList extends StatelessWidget {
           );
   }
 }
+
