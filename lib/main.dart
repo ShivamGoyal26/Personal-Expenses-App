@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-// import 'package:flutter/services.dart';
 import './widgets/chart.dart';
 import './widgets/new_transactions.dart';
 import './models/transaction.dart';
@@ -45,12 +44,12 @@ class MyHomePage extends StatefulWidget {
   }
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   final List<Transaction> _userTransactions = [];
 
   void _addNewTransaction(
       String txtitle, double txamount, DateTime pickedDate) {
-        print("Add New Transaction");
+    print("Add New Transaction");
     final newTx = Transaction(
       title: txtitle,
       amount: txamount,
@@ -65,23 +64,26 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _startAddNewTransaction(BuildContext ctx) {
     showModalBottomSheet(
-        context: ctx,
-        builder: (_) {
-          return GestureDetector(
-            onTap: () {},
-            child: NewTransaction(_addNewTransaction),
-            behavior: HitTestBehavior.opaque,
-          );
-        });
+      context: ctx,
+      builder: (_) {
+        return GestureDetector(
+          onTap: () {},
+          child: NewTransaction(_addNewTransaction),
+          behavior: HitTestBehavior.opaque,
+        );
+      },
+    );
   }
 
   void _deleteTransaction(String id) {
     setState(
       () {
         print("Delte Transaction in the setstate");
-        _userTransactions.removeWhere((tx) {
-          return tx.id == id;
-        });
+        _userTransactions.removeWhere(
+          (tx) {
+            return tx.id == id;
+          },
+        );
       },
     );
     print("Delte Transaction after the setstate");
@@ -89,16 +91,28 @@ class _MyHomePageState extends State<MyHomePage> {
 
   List<Transaction> get _recentTransactions {
     print("Recent Transactions");
-    return _userTransactions.where((tx) {
-      return tx.date.isAfter(
-        DateTime.now().subtract(
-          Duration(days: 7),
-        ),
-      );
-    }).toList();
+    return _userTransactions.where(
+      (tx) {
+        return tx.date.isAfter(
+          DateTime.now().subtract(
+            Duration(days: 7),
+          ),
+        );
+      },
+    ).toList();
   }
 
   bool _showChart = false;
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // This method calls by the flutter automatically when our app will change its state
+  }
+
+  @override
+  dispose() {
+    super.dispose();
+  }
 
   List<Widget> _buildLandscapeContent(
       MediaQueryData mediaQuery, AppBar appBar, Widget txList) {
@@ -111,9 +125,11 @@ class _MyHomePageState extends State<MyHomePage> {
             activeColor: Colors.purple,
             value: _showChart,
             onChanged: (val) {
-              setState(() {
-                _showChart = val;
-              });
+              setState(
+                () {
+                  _showChart = val;
+                },
+              );
             },
           ),
         ],

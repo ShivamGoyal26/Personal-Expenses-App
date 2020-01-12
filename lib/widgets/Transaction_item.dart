@@ -1,18 +1,37 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 import '../models/transaction.dart';
 import 'package:intl/intl.dart';
 
-
-class Transactionitem extends StatelessWidget {
+class Transactionitem extends StatefulWidget {
+  final Transaction transaction;
+  final Function deltedTx;
   const Transactionitem({
     Key key,
     @required this.transaction,
     @required this.deltedTx,
   }) : super(key: key);
 
-  final Transaction transaction;
-  final Function deltedTx;
+  @override
+  _TransactionitemState createState() => _TransactionitemState();
+}
+
+class _TransactionitemState extends State<Transactionitem> {
+  Color _bgColor;
+  @override
+  void initState() {
+    print("Here initisate is called initisate is called initisate is called initisate is called ");
+    const availableColors = [
+      Colors.red,
+      Colors.black,
+      Colors.blue,
+      Colors.purple,
+    ];
+    _bgColor = availableColors[Random().nextInt(
+        4)]; // here it will generate the random index for the availableColors
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,25 +45,26 @@ class Transactionitem extends StatelessWidget {
       ),
       child: ListTile(
         leading: CircleAvatar(
+          backgroundColor: _bgColor,
           radius: 30,
           child: Padding(
             padding: const EdgeInsets.all(6),
             child: FittedBox(
               child: Text(
-                '\$${transaction.amount}',
+                '\$${widget.transaction.amount}',
               ),
             ),
           ),
         ),
         title: Text(
-          transaction.title,
+          widget.transaction.title,
           style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
         ),
         subtitle: Text(
-          DateFormat.yMMMd().format(transaction.date),
+          DateFormat.yMMMd().format(widget.transaction.date),
           style: TextStyle(
             color: Colors.grey,
           ),
@@ -57,7 +77,7 @@ class Transactionitem extends StatelessWidget {
                 label: const Text("Delete"),
                 textColor: Theme.of(context).errorColor,
                 onPressed: () {
-                  deltedTx(transaction.id);
+                  widget.deltedTx(widget.transaction.id);
                 })
             : IconButton(
                 icon: const Icon(
@@ -65,7 +85,7 @@ class Transactionitem extends StatelessWidget {
                 ),
                 color: Theme.of(context).errorColor,
                 onPressed: () {
-                  deltedTx(transaction.id);
+                  widget.deltedTx(widget.transaction.id);
                 },
               ),
       ),

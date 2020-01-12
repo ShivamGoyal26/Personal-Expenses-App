@@ -8,14 +8,15 @@ class NewTransaction extends StatefulWidget {
   NewTransaction(this.addTx);
 
   @override
-  _NewTransactionState createState() => _NewTransactionState();
+  _NewTransactionState createState() {
+    return _NewTransactionState();
+  }
 }
 
 class _NewTransactionState extends State<NewTransaction> {
   final _titleInput = TextEditingController();
   final _amountInput = TextEditingController();
-  DateTime _selectedDate = null;
-  
+  DateTime _selectedDate;
 
   void _submitData() {
     print("Submit Data");
@@ -30,6 +31,7 @@ class _NewTransactionState extends State<NewTransaction> {
   }
 
   void _presentDatePicker() {
+    print("Date");
     showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -58,6 +60,7 @@ class _NewTransactionState extends State<NewTransaction> {
             left: 10,
             right: 10,
             bottom: MediaQuery.of(context).viewInsets.bottom + 10,
+            
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
