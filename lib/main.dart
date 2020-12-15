@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     print("Stateless widget in the build method");
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: "Personal Expense",
       theme: ThemeData(
         primarySwatch: Colors.purple,

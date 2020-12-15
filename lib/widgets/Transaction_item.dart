@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
 
 import '../models/transaction.dart';
 import 'package:intl/intl.dart';
@@ -18,21 +17,6 @@ class Transactionitem extends StatefulWidget {
 }
 
 class _TransactionitemState extends State<Transactionitem> {
-  Color _bgColor;
-  @override
-  void initState() {
-    print("Here initisate is called initisate is called initisate is called initisate is called ");
-    const availableColors = [
-      Colors.red,
-      Colors.black,
-      Colors.blue,
-      Colors.purple,
-    ];
-    _bgColor = availableColors[Random().nextInt(
-        4)]; // here it will generate the random index for the availableColors
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     print("Transaction item Build Method");
@@ -45,7 +29,6 @@ class _TransactionitemState extends State<Transactionitem> {
       ),
       child: ListTile(
         leading: CircleAvatar(
-          backgroundColor: _bgColor,
           radius: 30,
           child: Padding(
             padding: const EdgeInsets.all(6),
